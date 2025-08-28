@@ -9,7 +9,7 @@ const run = async () => {
   const server = FeedGenerator.create({
     port: maybeInt(process.env.FEEDGEN_PORT) ?? 3000,
     listenhost: maybeStr(process.env.FEEDGEN_LISTENHOST) ?? 'localhost',
-    sqliteLocation: maybeStr(process.env.FEEDGEN_SQLITE_LOCATION) ?? ':memory:',
+    databaseUrl: `postgresql://${process.env.FEEDGEN_DB_USER}:${encodeURIComponent(process.env.FEEDGEN_DB_PASSWORD!)}@${process.env.FEEDGEN_DB_HOST}:${process.env.FEEDGEN_DB_PORT}/${process.env.FEEDGEN_DB_NAME}`,
     subscriptionEndpoint:
       maybeStr(process.env.FEEDGEN_SUBSCRIPTION_ENDPOINT) ??
       'wss://bsky.network',

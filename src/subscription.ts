@@ -13,21 +13,21 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // This logs the text of every post off the firehose.
     // Just for fun :)
     // Delete before actually using
-    for (const post of ops.posts.creates) {
-      console.log(post.record.text)
-    }
+    // for (const post of ops.posts.creates) {
+    //   console.log(post.record.text)
+    // }
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
-        // only alf-related posts
-        return create.record.text.toLowerCase().includes('alf')
+        return Array.isArray(create.record.langs) && create.record.langs.includes('ja');
       })
       .map((create) => {
         // map alf-related posts to a db row
         return {
           uri: create.uri,
           cid: create.cid,
+          text: create.record.text,
           indexedAt: new Date().toISOString(),
         }
       })
@@ -45,5 +45,9 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         .onConflict((oc) => oc.doNothing())
         .execute()
     }
+
+//    for (const post of postsToCreate) {
+//      console.log(post.text)
+//    }
   }
 }
