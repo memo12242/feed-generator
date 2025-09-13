@@ -29,8 +29,8 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           cid: create.cid,
           text,
           indexedAt: new Date().toISOString(),
-        };
-      });
+        }
+      })
 
     if (postsToDelete.length > 0) {
       await this.db
