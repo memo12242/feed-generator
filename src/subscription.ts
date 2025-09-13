@@ -23,14 +23,14 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         return Array.isArray(create.record.langs) && create.record.langs.includes('ja');
       })
       .map((create) => {
-        // map alf-related posts to a db row
+        const text = create.record.text?.replace(/\0/g, '') || '';
         return {
           uri: create.uri,
           cid: create.cid,
-          text: create.record.text,
+          text,
           indexedAt: new Date().toISOString(),
-        }
-      })
+        };
+      });
 
     if (postsToDelete.length > 0) {
       await this.db
