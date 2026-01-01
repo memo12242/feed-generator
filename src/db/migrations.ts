@@ -70,3 +70,19 @@ migrations['003'] = {
       .execute()
   },
 }
+
+migrations['004'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .alterTable('post')
+      .addColumn('author', 'varchar')
+      .execute()
+  },
+
+  async down(db: Kysely<unknown>) {
+    await db.schema
+      .alterTable('post')
+      .dropColumn('author')
+      .execute()
+  },
+}
